@@ -1,0 +1,35 @@
+name: Sync to Hugging Face hub
+on:
+  push:
+    branches: [main]
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Add remote
+        env:
+          HF: ${{ secrets.HF }}
+        run: git remote add https://huggingface.co/spaces/brito-leonardo/demo
+      - name: Push to hub
+        env:
+          HF: ${{ secrets.HF }}
+        run: git push --force https://huggingface.co/spaces/brito-leonardo/demo main
+        
+        
+        
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
